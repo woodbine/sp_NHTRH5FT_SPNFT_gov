@@ -96,12 +96,10 @@ soup = BeautifulSoup(html, 'lxml')
 
 #### SCRAPE DATA
 
-blocks = soup.find('div', '  document-library-block accordion  document-library-block accordion').find_all('a')
+blocks = soup.find_all('li', 'media')
 for block in blocks:
-    if '.csv' in block['href'] or '.xls' in block['href'] or '.xlsx' in block['href'] or '.pdf' in block['href']:
-        link = 'http://www.sompar.nhs.uk'+block['href']
-        if not '20k' in link:
-            continue
+    if '.csv' in block.a['href'] or '.xls' in block.a['href'] or '.xlsx' in block.a['href'] or '.pdf' in block.a['href']:
+        link = 'http://www.sompar.nhs.uk'+block.a['href']
         title = block.text.strip().split('.')[0]
         csvMth = title.split('0k_')[-1].split('0k')[-1].split('5k')[-1].strip()[:3]
         csvYr = '20'+title[-2:]
